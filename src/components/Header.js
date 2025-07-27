@@ -1,25 +1,43 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router";
+import useIsAppOnline from "../utils/useIsAppOnline";
+import { LOGO_IMAGE_URL } from "../utils/Constants";
+import UserContext from "../utils/UserContext";
 
 const Header = () =>{
     const [loginText, setLoginText] = useState("Login");
+    const isOnline = useIsAppOnline();
+    const {userName} = useContext(UserContext);
 return (
-        <div className = "header">
-        <img className="logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIA79CgtM5Rf7a7CF3joHWd0dy3prVyjagRQ&s" />
-        <ul className="navItems">
-            <li>
+        <div className = "flex justify-between border-amber-100 rounded-2xl m-1 shadow-2xl">
+        <img className="w-20 m-2" src= {LOGO_IMAGE_URL} />
+        <ul className="flex">
+            <li className="m-4 py-4">
+                {isOnline? (<div className="text-green-600">Online</div>) : (<div className="text-red-500">Offline</div>)}
+            </li>
+            <li className="m-4 py-4 font-bold text-orange-600 underline" >
                 <Link to={"/"} >Home</Link>
             </li>
-            <li>
+            <li className="m-4 py-4 font-bold text-orange-600 underline">
                 <Link to={"/about"} >About</Link>
             </li>
-            <li>
+            <li className="m-4 py-4 font-bold text-orange-600 underline">
                 <Link to={"/contactus"} >Contact Us</Link>
             </li>
-            <li>Cart</li>
-            <button className="btnLogin" onClick={()=>{
-                (loginText === "Login")? setLoginText("Logout") : setLoginText("Login");
-            }}>{loginText}</button>
+            <li className="m-4 py-4 font-bold text-orange-600 underline">
+                <Link to={"/grocery"} >Grocery</Link>
+            </li>
+            <li className="m-4 py-4 font-bold text-orange-600 underline">
+                Cart
+            </li>
+            <li className="m-4 py-2 font-medium text-orange-600 underline">
+                <button className="p-2 border-1 rounded-xl " onClick={()=>{
+                    (loginText === "Login")? setLoginText("Logout") : setLoginText("Login");
+                }}>{loginText}</button>
+            </li>
+            <li className="m-4 py-4 font-medium text-orange-600">
+                {userName}
+            </li>
         </ul>
         </div>
     )
