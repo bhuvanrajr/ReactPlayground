@@ -8,10 +8,6 @@ import ErrorPage from "./src/components/ErrorPage";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router";
 import RestoMenuCard from "./src/components/RestoMenuCard";
 import { lazy, Suspense } from "react";
-import UserContext from "./src/utils/UserContext";
-
-
-
 
 const Grocery = lazy(() => import("./src/components/Grocery"));
 
@@ -47,8 +43,6 @@ const routeConfing = createBrowserRouter([
         errorElement : <ErrorPage />
     }
 ]);
-
-
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

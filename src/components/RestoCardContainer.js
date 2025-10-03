@@ -4,12 +4,17 @@ import Shimmer from "./Shimmer";
 import { SWIGGY_API } from "../utils/Constants";
 import { Link } from "react-router";
 import UserContext from "../utils/UserContext";
+import { useSelector } from "react-redux";
+
 
 const RestoCardContainer = () =>{
-    const [restList, setRestList] = useState<any[]>([]);
-    const [filteredRestData, setFilteredRestdata] = useState<any[]>([]);
+    const [restList, setRestList] = useState([]);
+    const [filteredRestData, setFilteredRestdata] = useState([]);
     const [filterText, setFilterText] = useState("");
-    const {userName, setUserNameVal} = useContext(UserContext);
+    const {userName} = useContext(UserContext);
+    const {setUserNameVal} = useContext(UserContext);
+    const pageRefresh = useSelector((store) => store.pageRefresh.val);
+
 
     const fetchData = async ()=>   {
         const response = await fetch(SWIGGY_API);
@@ -22,7 +27,7 @@ const RestoCardContainer = () =>{
     };
     useEffect(() =>{
         fetchData()
-    },[]);
+    },[pageRefresh]);
 
     const StarRatedResto = StarRatedRestoCard();
 
@@ -43,8 +48,8 @@ const RestoCardContainer = () =>{
                     return setFilteredRestdata(data);
                 }} >Filter Best Restaurants</button>
             </div>
-            <div className="py-3">
-                <input className="border-1 rounded-xs mx-2 p-1" value={userName} onChange ={(e)=>{setUserNameVal(e.target.value)}}></input>
+            <div className="my-3 rounded-sm shadow-2xl w-45 h-8 px-3 py-0.5">
+                <input className="border-1 rounded-xs mx-2" value={userName} onChange ={(e)=>{setUserNameVal(e.target.value)}}></input>
             </div>
         </div>
         <div className="flex flex-wrap space-x-2 space-y-2 justify-center m-2 bg-white rounded-xl">
